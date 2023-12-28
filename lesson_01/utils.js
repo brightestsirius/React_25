@@ -22,10 +22,10 @@ var renderObject = function renderObject(obj) {
       return React.createElement(
         "li",
         { key: index },
-        _typeof(obj[key]) === "object" ? Array.isArray(obj[key]) ? renderArray(obj[key]) : renderObject(obj[key]) : obj[key]
+        _typeof(obj[key]) === "object" ? Array.isArray(obj[key]) ? renderArray(obj[key]) : obj[key] !== null && renderObject(obj[key]) : obj[key]
       );
     })
   ) : null;
 };
 
-export { renderObject };
+export { renderObject, renderArray };

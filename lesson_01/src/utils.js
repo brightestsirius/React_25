@@ -17,7 +17,7 @@ const renderObject = (obj) => {
         return (
           <li key={index}>
             {typeof obj[key] === `object`
-              ? Array.isArray(obj[key]) ? renderArray(obj[key]) : renderObject(obj[key])
+              ? Array.isArray(obj[key]) ? renderArray(obj[key]) : obj[key]!== null && renderObject(obj[key])
               : obj[key]}
           </li>
         );
@@ -26,4 +26,4 @@ const renderObject = (obj) => {
   ) : null;
 };
 
-export { renderObject };
+export { renderObject, renderArray };
