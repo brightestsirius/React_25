@@ -1,28 +1,33 @@
 import React, { Component } from "react";
 
+// setState((actualState) => ({}), () => {})
+
 export default class User extends Component {
-  constructor(props) {
-    super(props);
+    constructor(props){
+        super(props);
 
-    setTimeout(() => {
-      this.setState((prevState) => ({
-        user: { ...prevState.user, name: `Taras` },
-      }));
-    }, 1000);
+        setTimeout(() => {
+            this.setState(
+                (actualState) => ({
+                    user: {...actualState.user, name: `Taras`}
+                }))
+        }, 1000)
 
-    setTimeout(() => {
-      this.setState((prevState) => ({
-        user: { ...prevState.user, age: 50 },
-      }));
-    }, 1000);
+        setTimeout(() => {
+            this.setState((actualState) => ({
+                user: {...actualState.user, age: 100}
+            }))
+        }, 1000)
 
-    setTimeout(() => {
-      this.setState((prevState) => ({
-        user: { ...prevState.user, city: `Kyiv` },
-      }));
-    }, 1000);
-  }
+        setTimeout(() => {
+            this.setState(actualState => ({
+                user: {...actualState.user, city: `Kyiv`}
+            }))
+        }, 1000)
+    }
 
+
+  // state = Object.assign({}, this.props);
   state = { ...this.props };
 
   render() {

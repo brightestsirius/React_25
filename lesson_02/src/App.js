@@ -1,24 +1,18 @@
 import React, { Component } from "react";
-import List from "./components/Lifecycle/List";
+// import List from "./components/ListClass/List";
+// import User from "./components/User/User";
+import List from './components/ComponentLifecycle/List'
 
 export default class App extends Component {
-  state = {
-    showList: true,
-  };
-
-  removeListComponent() {
-    this.setState({
-      showList: false,
-    });
-  }
-
   render() {
+    const animals = [`cat`, `dog`, `lion`, `mouse`, `wolf`];
+    const user = { name: `Jack`, age: 30, city: `Kharkiv` };
+
     return (
       <>
-        <button onClick={() => this.removeListComponent()}>
-          Remove List Component
-        </button>
-        {this.state.showList && <List list={[`cat`, `dog`, `lion`]} />}
+        {/* <List list={animals} /> */}
+        {/* <User user={user} /> */}
+        <List list={animals} />
       </>
     );
   }
