@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 
 import List from "./components/List/List";
-import Counter from "./components/Counter/Counter";
-import FunctionalList from "./components/FunctionalList/FunctionalList";
-import CrudList from "./components/CRUD/List";
+import Counter from './components/Counter/Counter'
+import FunctionalList from './components/FunctionalList/FunctionalList'
+import Todos from './components/Todos/Todos'
 
 export default class App extends Component {
   state = {
@@ -14,31 +14,27 @@ export default class App extends Component {
       { type: `flamingo`, icon: `🦩` },
       { type: `penguin`, icon: `🐧` },
     ],
-    showList: true,
+    showList: true
   };
 
+  handlerShowList(){
+    this.setState({
+      showList: false
+    })
+  }
+
   render() {
-    let { animals = [], showList } = this.state;
+    let { animals, showList } = this.state;
 
     return (
       <>
-        {/* <button
-          onClick={() => {
-            this.setState({
-              showList: false,
-            });
-          }}
-        >
-          Remove List
-        </button> */}
-
+        {/* <button onClick={this.handlerShowList.bind(this)}>Remove List</button> */}
         {/* {showList && <List list={animals} />} */}
 
         {/* <Counter /> */}
+        {/* {showList && <FunctionalList list={animals}  />} */}
 
-        {/* {showList && <FunctionalList list={animals} />} */}
-
-        <CrudList />
+        <Todos />
       </>
     );
   }

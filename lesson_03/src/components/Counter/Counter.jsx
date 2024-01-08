@@ -8,11 +8,14 @@ export default function Counter() {
 
   const increment = () => setCounter(counter + 1);
 
+  const counterTen = () => setCounter(10);
+
   return (
     <div className="counter">
       <button onClick={decrement}>-</button>
       <span>{counter}</span>
       <button onClick={increment}>+</button>
+      <button onClick={counterTen}>Set 10</button>
     </div>
   );
 }

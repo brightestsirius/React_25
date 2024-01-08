@@ -1,61 +1,43 @@
 import React, { Component } from "react";
-import "./style.sass";
 
-import ListItem from "./ListItem";
+import {getRandomInt} from './../../utils/utils'
 
-import { getRandomIntInclusive } from "./../../utils/utils";
+import ListItem from './ListItem'
 
 export default class List extends Component {
-  state = { ...this.props, borderWidth: 0, activateItems: null };
+  state = { ...this.props };
 
-  componentDidMount() {
-    const activateItems = setInterval(() => {
-      console.log(`in activateItems Interval`);
+  componentDidMount(){
+    const removeItem = setInterval(() => {
+      console.log(`in setInterval`);
 
-      let unactiveItems = this.state.list.filter((item) => !item.active);
-      let randomIndex = getRandomIntInclusive(0, unactiveItems.length - 1);
-      let randomItem = unactiveItems[randomIndex];
+        let randomIndex = getRandomInt(0, this.state.list.length);
 
-      this.setState(
-        {
-          list: this.state.list.filter((item) => item !== randomItem),
-        },
-        () => {
-          let unactiveItems = this.state.list.filter((item) => !item.active);
+        this.setState(prevState => ({
+            list: prevState.list.filter((item, index) => index!==randomIndex)
+        }), () => {
+            console.log(this.state.list);
+            !this.state.list.length && clearInterval(removeItem);
+        })
 
-          if (!unactiveItems.length) {
-            // this.setState({
-            //   borderWidth: `10px`,
-            // });
-            clearInterval(activateItems);
-          }
-
-          //   if (unactiveItems.length === Math.round(this.state.list.length / 2)) {
-          //     this.setState({
-          //       borderWidth: `5px`,
-          //     });
-          //   }
-        }
-      );
     }, 1000);
 
-    this.setState({ activateItems });
+    this.setState({removeItem})
   }
 
-  componentWillUnmount() {
+  componentWillUnmount(){
     console.log(`in List componentWillUnmount`);
-    clearInterval(this.state.activateItems);
+    
+    clearInterval(this.state.removeItem);
   }
 
   render() {
-    let { list = [], borderWidth } = this.state;
+    const {list=[]} = this.state;
 
-    return list.length ? (
-      <ul className="list" style={{ borderWidth }}>
-        {list.map((item, index) => (
-          <ListItem key={index} item={item} />
-        ))}
-      </ul>
-    ) : null;
+    return list.length ? <ul>
+        {
+            list.map((item, index) => <ListItem key={index} item={item} />)
+        }
+    </ul> : null;
   }
 }
