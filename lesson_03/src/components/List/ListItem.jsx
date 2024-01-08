@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 export default class ListItem extends Component {
-  componentWillUnmount(){
+  componentWillUnmount() {
     console.log(`in ListItem componentWillUnmount`);
   }
   

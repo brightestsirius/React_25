@@ -6,33 +6,45 @@ import ListItem from "./ListItem";
 import { getRandomIntInclusive } from "./../../utils/utils";
 
 export default class List extends Component {
-  state = { ...this.props, borderWidth: 0, activateItem: null };
+  state = { ...this.props, borderWidth: 0, activateItems: null };
 
   componentDidMount() {
-    const activateItem = setInterval(() => {
-      let unactiveList = this.state.list.filter((item) => !item.active);
-      let randomIndex = getRandomIntInclusive(0, unactiveList.length - 1);
-      let randomItem = unactiveList[randomIndex];
+    const activateItems = setInterval(() => {
+      console.log(`in activateItems Interval`);
+
+      let unactiveItems = this.state.list.filter((item) => !item.active);
+      let randomIndex = getRandomIntInclusive(0, unactiveItems.length - 1);
+      let randomItem = unactiveItems[randomIndex];
 
       this.setState(
-        (prevState) => ({
-          list: prevState.list.filter((item) => item !== randomItem),
-        }),
+        {
+          list: this.state.list.filter((item) => item !== randomItem),
+        },
         () => {
-          let unactiveList = this.state.list.filter((item) => !item.active);
-          if (!unactiveList.length) {
-            clearInterval(activateItem);
+          let unactiveItems = this.state.list.filter((item) => !item.active);
+
+          if (!unactiveItems.length) {
+            // this.setState({
+            //   borderWidth: `10px`,
+            // });
+            clearInterval(activateItems);
           }
+
+          //   if (unactiveItems.length === Math.round(this.state.list.length / 2)) {
+          //     this.setState({
+          //       borderWidth: `5px`,
+          //     });
+          //   }
         }
       );
     }, 1000);
 
-    this.setState({ activateItem });
+    this.setState({ activateItems });
   }
 
   componentWillUnmount() {
     console.log(`in List componentWillUnmount`);
-    clearInterval(this.state.activateItem);
+    clearInterval(this.state.activateItems);
   }
 
   render() {
