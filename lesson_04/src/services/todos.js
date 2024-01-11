@@ -1,23 +1,11 @@
+import axios from "axios";
 const API = `https://jsonplaceholder.typicode.com/todos`;
 
 const todos = {
-  get: (id) => fetch(API + (id ? `/${id}` : ``)).then((data) => data.json()),
-  post: (obj) =>
-    fetch(API, {
-      method: `POST`,
-      body: JSON.stringify(obj),
-      headers: { "Content-type": "application/json" },
-    }).then((data) => data.json()),
-  patch: (id, obj) =>
-    fetch(API + `/${id}`, {
-      method: `PATCH`,
-      body: JSON.stringify(obj),
-      headers: { "Content-type": "application/json" },
-    }).then((data) => data.json()),
-  delete: (id) =>
-    fetch(API + `/${id}`, {
-      method: `DELETE`,
-    }).then((data) => data.json()),
+  get: (id) => axios.get(API + (id ? `/${id}` : ``)).then(({ data }) => data),
+  post: (obj) => axios.post(API, obj).then(({ data }) => data),
+  patch: (id, obj) => axios.patch(API + `/${id}`, obj).then(({ data }) => data),
+  delete: (id) => axios.delete(API + `/${id}`).then(({ data }) => data),
 };
 
 export default todos;

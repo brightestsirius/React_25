@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import service from "./../../services/todos";
 
 import TodoListItem from "./TodoListItem";
 
-export default function TodosList({ addedTodo, setTodosList }) {
+export default function TodosList({ addedTodo, setTodosList, color }) {
   const [todos, setTodos] = useState([]);
-  const [sortedTodos, setSortedTodos] = useState([]);
+
+  const sortedTodos = useMemo(
+    () => todos.sort((a, b) => b.completed - a.completed),
+    [todos]
+  );
 
   useEffect(() => {
     (async () => {
@@ -22,7 +26,6 @@ export default function TodosList({ addedTodo, setTodosList }) {
   useEffect(() => {
     if (todos.length) {
       setTodosList(todos);
-      setSortedTodos(todos.sort((a, b) => b.completed - a.completed));
     }
   }, [todos]);
 
@@ -43,7 +46,7 @@ export default function TodosList({ addedTodo, setTodosList }) {
   };
 
   return sortedTodos.length ? (
-    <ul>
+    <ul style={{ color }}>
       {sortedTodos.map((item) => (
         <TodoListItem
           key={item.id}
