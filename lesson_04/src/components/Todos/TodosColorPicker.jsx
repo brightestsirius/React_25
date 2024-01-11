@@ -1,6 +1,7 @@
 import React from "react";
+import { MuiColorInput } from "mui-color-input";
 
 export default function TodosColorPicker({ setColor, color }) {
-  const handleColor = (e) => setColor(e.target.value);
-  return <input type="color" defaultValue={color} onChange={handleColor} />;
+  const handleColor = (value) => setColor(value);
+  return <MuiColorInput value={color} onChange={handleColor} />;
 }

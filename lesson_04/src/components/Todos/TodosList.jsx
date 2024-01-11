@@ -3,6 +3,8 @@ import service from "./../../services/todos";
 
 import TodoListItem from "./TodoListItem";
 
+import List from '@mui/material/List';
+
 export default function TodosList({ addedTodo, setTodosList, color }) {
   const [todos, setTodos] = useState([]);
 
@@ -46,7 +48,7 @@ export default function TodosList({ addedTodo, setTodosList, color }) {
   };
 
   return sortedTodos.length ? (
-    <ul style={{ color }}>
+    <List style={{ color }}>
       {sortedTodos.map((item) => (
         <TodoListItem
           key={item.id}
@@ -55,6 +57,6 @@ export default function TodosList({ addedTodo, setTodosList, color }) {
           completeItem={completeItem}
         />
       ))}
-    </ul>
+    </List>
   ) : null;
 }
