@@ -1,11 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 
 import TodoListItem from "./TodoListItem";
 
-import service from '../../../services/todos'
+import service from "../../../services/todos";
 
-export default function TodoList({createdTodo}) {
+export default function TodoList({ createdTodo, color }) {
   const [todos, setTodos] = useState([]);
+  // const [sortedTodos, setSortedTodos] = useState([]);
+
+  const sortedTodos = useMemo(() => todos.sort((a, b) => b.completed - a.completed), [todos]);
+
+  const getCompletedTodosCount = useCallback(() => {
+    console.log(`in getCompletedTodosCount`);
+    return todos.filter(item => item.completed).length;
+  }, [todos]);
 
   useEffect(() => {
     (async () => {
@@ -15,11 +23,18 @@ export default function TodoList({createdTodo}) {
   }, []);
 
   useEffect(() => {
-    // console.log(`in useEffect for createdTodo`, createdTodo);
-    if(Object.keys(createdTodo).length) {
-      setTodos(prevState => [...prevState, createdTodo])
+    if (Object.keys(createdTodo).length) {
+      setTodos((prevState) => [...prevState, createdTodo]);
     }
-  }, [createdTodo])
+  }, [createdTodo]);
+
+  useEffect(() => {
+    console.log(`in useEffect for getCompletedTodosCount`);
+  }, [getCompletedTodosCount])
+
+  // useEffect(() => {
+  //   setSortedTodos(todos.sort((a,b) => b.completed-a.completed));
+  // }, [todos]);
 
   const handleItemDelete = async (id) => {
     try {
@@ -31,7 +46,7 @@ export default function TodoList({createdTodo}) {
   };
 
   const handleItemComplete = async (item) => {
-    let response = await service.patch(item.id, {completed: !item.completed});
+    let response = await service.patch(item.id, { completed: !item.completed });
 
     setTodos((prevState) =>
       prevState.map((el) => {
@@ -41,9 +56,11 @@ export default function TodoList({createdTodo}) {
     );
   };
 
-  return todos.length ? (
-    <ul>
-      {todos.map((item, index) => (
+  return sortedTodos.length ? (
+    <>
+    <p>Count of completed todos: {getCompletedTodosCount()}</p>
+    <ul style={{ color }}>
+      {sortedTodos.map((item, index) => (
         <TodoListItem
           key={index}
           item={item}
@@ -52,5 +69,6 @@ export default function TodoList({createdTodo}) {
         />
       ))}
     </ul>
+    </>
   ) : null;
 }
