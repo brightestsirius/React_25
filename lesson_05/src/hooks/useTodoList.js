@@ -1,17 +1,13 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, {useState, useEffect, useMemo, useCallback} from "react";
 
-import service from "../services/todos";
+import service from '../services/todos';
 
-import {
-  TODOS_FILTER_COMPLITED,
-  TODOS_FILTER_PROGRESS,
-} from "../constants/todos";
+import {TODOS_FILTER_COMPLETED, TODOS_FILTER_PROGRESS} from '../constants/todos'
 
-export default function useTodos(createdTodo, todosFilter) {
+export default function useTodoList(createdTodo, todosFilter) {
   const [todos, setTodos] = useState([]);
-  const [isLoading, setLoading] = useState(false);
-
   const [filteredList, setFilteredList] = useState([]);
+  const [isLoading, setLoading] = useState(false);
 
   useMemo(() => todos.sort((a, b) => b.completed - a.completed), [todos]);
 
@@ -19,6 +15,8 @@ export default function useTodos(createdTodo, todosFilter) {
     (async () => {
       setLoading(true);
       const response = await service.get();
+      setTimeout(() => setLoading(false), 2000);
+
       setTodos(response.slice(0, 10));
     })();
   }, []);
@@ -30,20 +28,23 @@ export default function useTodos(createdTodo, todosFilter) {
   }, [createdTodo]);
 
   useEffect(() => {
-    if(isLoading){
-      setTimeout(() => setLoading(false), 2000);
-    }
+    setFilteredList(todos);
+  }, [todos]);
 
-    switch (todosFilter) {
-      case TODOS_FILTER_COMPLITED:
-        setFilteredList(todos.filter((item) => item.completed));
+  useEffect(() => {
+    // console.log(`in useEffect for todosFilter in TodosList`, todosFilter);
+
+    switch(todosFilter){
+      case TODOS_FILTER_COMPLETED:
+        setFilteredList(todos.filter(item => item.completed));
         break;
       case TODOS_FILTER_PROGRESS:
-        setFilteredList(todos.filter((item) => !item.completed));
+        setFilteredList(todos.filter(item => !item.completed));
         break;
       default:
         setFilteredList(todos);
     }
+
   }, [todosFilter, todos]);
 
   const handleItemDelete = async (id) => {
@@ -66,5 +67,9 @@ export default function useTodos(createdTodo, todosFilter) {
     );
   };
 
-  return [filteredList, handleItemDelete, handleItemComplete, isLoading];
+  const getCompletedTodos = useCallback(() => {
+    return todos.filter((item) => item.completed).length;
+  }, [todos]);
+
+  return [filteredList, handleItemDelete, handleItemComplete, getCompletedTodos, isLoading];
 }

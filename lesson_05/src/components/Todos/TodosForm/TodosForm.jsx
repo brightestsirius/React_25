@@ -1,9 +1,13 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 
-import service from '../../../services/todos'
+import service from "../../../services/todos";
 
-export default function TodosForm({liftingTodo}) {
-  const inputTitle = useRef();
+
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+
+export default function TodosForm({ liftingTodo }) {
   const [newTodo, setNewTodo] = useState({
     title: `Default value`,
     completed: false,
@@ -28,16 +32,12 @@ export default function TodosForm({liftingTodo}) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Title{" "}
-        <input
-          type="text"
-          ref={inputTitle}
-          defaultValue={newTodo.title}
-          onChange={handleTitle}
-        />
-      </label>
+    <Box component="form" onSubmit={handleSubmit}>
+      <TextField
+        label="Title"
+        defaultValue={newTodo.title}
+        onChange={handleTitle}
+      />
       <label>
         Completed{" "}
         <input
@@ -46,7 +46,9 @@ export default function TodosForm({liftingTodo}) {
           onChange={handleComplete}
         />
       </label>
-      <button>Add todo</button>
-    </form>
+      <Button type="submit" variant="contained">
+        Add todo
+      </Button>
+    </Box>
   );
 }
