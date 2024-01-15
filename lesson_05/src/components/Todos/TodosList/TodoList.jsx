@@ -1,19 +1,16 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 
 import TodoListItem from "./TodoListItem";
 
-import service from "../../../services/todos";
+import service from '../../../services/todos'
 
-export default function TodoList({ createdTodo, color }) {
+import {TODOS_FILTER_COMPLITED, TODOS_FILTER_PROGRESS} from './../../../constants/todos'
+
+export default function TodoList({createdTodo, todosFilter}) {
   const [todos, setTodos] = useState([]);
-  // const [sortedTodos, setSortedTodos] = useState([]);
-
-  const sortedTodos = useMemo(() => todos.sort((a, b) => b.completed - a.completed), [todos]);
-
-  const getCompletedTodosCount = useCallback(() => {
-    console.log(`in getCompletedTodosCount`);
-    return todos.filter(item => item.completed).length;
-  }, [todos]);
+  const [filteredList, setFilteredList] = useState([]);
+  
+  useMemo(() => todos.sort((a,b) => b.completed - a.completed), [todos]);
 
   useEffect(() => {
     (async () => {
@@ -23,18 +20,24 @@ export default function TodoList({ createdTodo, color }) {
   }, []);
 
   useEffect(() => {
-    if (Object.keys(createdTodo).length) {
-      setTodos((prevState) => [...prevState, createdTodo]);
+    if(Object.keys(createdTodo).length) {
+      setTodos(prevState => [...prevState, createdTodo])
     }
   }, [createdTodo]);
 
   useEffect(() => {
-    console.log(`in useEffect for getCompletedTodosCount`);
-  }, [getCompletedTodosCount])
+    switch(todosFilter){
+      case TODOS_FILTER_COMPLITED:
+        setFilteredList(todos.filter(item => item.completed));
+        break;
+      case TODOS_FILTER_PROGRESS:
+        setFilteredList(todos.filter(item => !item.completed));
+        break;
+      default:
+        setFilteredList(todos);
 
-  // useEffect(() => {
-  //   setSortedTodos(todos.sort((a,b) => b.completed-a.completed));
-  // }, [todos]);
+    }
+  }, [todosFilter, todos]);
 
   const handleItemDelete = async (id) => {
     try {
@@ -46,7 +49,7 @@ export default function TodoList({ createdTodo, color }) {
   };
 
   const handleItemComplete = async (item) => {
-    let response = await service.patch(item.id, { completed: !item.completed });
+    let response = await service.patch(item.id, {completed: !item.completed});
 
     setTodos((prevState) =>
       prevState.map((el) => {
@@ -56,11 +59,9 @@ export default function TodoList({ createdTodo, color }) {
     );
   };
 
-  return sortedTodos.length ? (
-    <>
-    <p>Count of completed todos: {getCompletedTodosCount()}</p>
-    <ul style={{ color }}>
-      {sortedTodos.map((item, index) => (
+  return filteredList.length ? (
+    <ul>
+      {filteredList.map((item, index) => (
         <TodoListItem
           key={index}
           item={item}
@@ -69,6 +70,5 @@ export default function TodoList({ createdTodo, color }) {
         />
       ))}
     </ul>
-    </>
   ) : null;
 }

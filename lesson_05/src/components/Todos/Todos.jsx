@@ -3,17 +3,19 @@ import './style.sass'
 
 import TodosForm from './TodosForm/TodosForm'
 import TodoList from './TodosList/TodoList'
-import ColorPicker from './../ColorPicker/ColorPicker'
+import Filter from './../Filter/Filter'
+
+import {TODOS_FILTER_ALL} from '../../constants/todos'
 
 export default function Todos() {
   const [createdTodo, setCreatedTodo] = useState({});
-  const [color, setColor] = useState(`#000`);
+  const [todosFilter, setTodosFilter] = useState(TODOS_FILTER_ALL);
   
   return (
     <div>
         <TodosForm liftingTodo={setCreatedTodo} />
-        <ColorPicker color={color} setColor={setColor} />
-        <TodoList createdTodo={createdTodo} color={color} />
+        <Filter todosFilter={todosFilter} setTodosFilter={setTodosFilter} />
+        <TodoList createdTodo={createdTodo} todosFilter={todosFilter} />
     </div>
   )
 }
