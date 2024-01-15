@@ -9,6 +9,7 @@ import {
 
 export default function useTodos(createdTodo, todosFilter) {
   const [todos, setTodos] = useState([]);
+  const [isLoading, setLoading] = useState(false);
 
   const [filteredList, setFilteredList] = useState([]);
 
@@ -16,6 +17,7 @@ export default function useTodos(createdTodo, todosFilter) {
 
   useEffect(() => {
     (async () => {
+      setLoading(true);
       const response = await service.get();
       setTodos(response.slice(0, 10));
     })();
@@ -28,6 +30,10 @@ export default function useTodos(createdTodo, todosFilter) {
   }, [createdTodo]);
 
   useEffect(() => {
+    if(isLoading){
+      setTimeout(() => setLoading(false), 2000);
+    }
+
     switch (todosFilter) {
       case TODOS_FILTER_COMPLITED:
         setFilteredList(todos.filter((item) => item.completed));
@@ -60,5 +66,5 @@ export default function useTodos(createdTodo, todosFilter) {
     );
   };
 
-  return [filteredList, handleItemDelete, handleItemComplete];
+  return [filteredList, handleItemDelete, handleItemComplete, isLoading];
 }
