@@ -1,21 +1,18 @@
-import { SET_TODOS, ITEM_DELETE } from "./actions";
+import {SET_TODOS, ITEM_DELETE} from './actions'
 
-const initialState = {
-  todos: [],
+const INITIAL_STATE = {
+  todos: []
 };
 
 const reducer = (state, { type, payload }) => {
   switch (type) {
     case SET_TODOS:
-      return { ...state, todos: payload };
+        return {...state, todos: payload};
     case ITEM_DELETE:
-      return {
-        ...state,
-        todos: state.todos.filter((item) => item.id !== payload),
-      };
+        return {...state, todos: state.todos.filter(item => item.id !== payload)}
     default:
       return state;
   }
 };
 
-export { initialState, reducer };
+export { INITIAL_STATE, reducer };

@@ -1,20 +1,21 @@
 import { COUNTER_DECREMENT, COUNTER_INCREMENT, COUNTER_SET } from "./actions";
 
-const initialState = {
+const INITIAL_STATE = {
   counter: 0,
+  color: `black`,
 };
 
-const reducer = (state, action) => {
-  if (action.type === COUNTER_DECREMENT) {
-    return { ...state, counter: state.counter - 1 };
+const reducer = (state, { type, payload }) => {
+  switch (type) {
+    case COUNTER_DECREMENT:
+      return { ...state, counter: state.counter - 1 };
+    case COUNTER_INCREMENT:
+      return { ...state, counter: state.counter + 1 };
+    case COUNTER_SET:
+      return { ...state, counter: +payload };
+    default:
+      return state;
   }
-  if (action.type === COUNTER_INCREMENT) {
-    return { ...state, counter: state.counter + 1 };
-  }
-  if (action.type === COUNTER_SET) {
-    return { ...state, counter: +action.payload };
-  }
-  return state;
 };
 
-export { initialState, reducer };
+export { INITIAL_STATE, reducer };

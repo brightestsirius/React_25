@@ -1,7 +1,7 @@
 import React, { useReducer, useRef } from "react";
 import "./style.sass";
 
-import { initialState, reducer } from "./../../store/counter/reducer";
+import { INITIAL_STATE, reducer } from "./../../store/counter/reducer";
 
 import {
   COUNTER_DECREMENT_ACTION,
@@ -10,16 +10,17 @@ import {
 } from "./../../store/counter/actions";
 
 export default function Counter() {
-  const input = useRef();
+  const inputCounter = useRef();
 
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
 
   const handleDecrement = () => dispatch(COUNTER_DECREMENT_ACTION);
+
   const handleIncrement = () => dispatch(COUNTER_INCREMENT_ACTION);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(COUNTER_SET_ACTION(input.current.value));
+    dispatch(COUNTER_SET_ACTION(inputCounter.current.value));
   };
 
   return (
@@ -29,7 +30,7 @@ export default function Counter() {
       <button onClick={handleIncrement}>+</button>
 
       <form onSubmit={handleSubmit}>
-        <input type="number" ref={input} />
+        <input type="number" ref={inputCounter} />
       </form>
     </div>
   );

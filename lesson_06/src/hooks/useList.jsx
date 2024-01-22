@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 
-import service from "./../services/todos";
+import service from "../services/todos";
 
 import ListContext from "../context/ListContext";
 
@@ -10,12 +10,12 @@ export default function useList() {
 
   useEffect(() => {
     (async () => {
-      let response = await service.get();
+      const response = await service.get();
       setList(response.splice(0, 10));
     })();
   }, []);
 
-  const handleDelete = async (id) => {
+  const itemDelete = async (id) => {
     await service.delete(id);
     setList((prevState) => prevState.filter((item) => item.id !== id));
   };
@@ -24,5 +24,5 @@ export default function useList() {
     liftingList(list);
   }, [list]);
 
-  return [list, handleDelete];
+  return [list, itemDelete];
 }
