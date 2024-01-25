@@ -1,20 +1,24 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useEffect } from "react";
 
-import {
-  INITIAL_STATE as userState,
-  reducer as userReducer,
-} from "./../store/user/reducer";
+import { INITIAL_STATE, reducer } from "../store/user/reducer";
 
-import service from "./../services/users";
-import { setUserAction } from "./../store/user/actions";
+import service from "../services/users";
 
-export default function useUser() {
-  const [user, dispatchUser] = useReducer(userReducer, userState);
+import { setUserAction } from "../store/user/actions";
 
-  const getUser = async (id) => {
-    const response = await service.get(id);
-    dispatchUser(setUserAction(response));
-  };
+export default function useUsers(id) {
+  const [user, dispatch] = useReducer(reducer, INITIAL_STATE);
 
-  return { ...user, dispatchUser, getUser };
+  useEffect(() => {
+    (async () => {
+      const response = await service.get(id);
+      dispatch(setUserAction(response));
+    })();
+  }, []);
+
+  const deleteUser = async () => {
+    await service.delete(id);
+  }
+
+  return { ...user, deleteUser };
 }

@@ -1,7 +1,7 @@
 import { SET_COLOR } from "./actions";
 
 const INITIAL_STATE = {
-  color: `#663399`,
+  color: `#ed143d`,
 };
 
 const reducer = (state, { type, payload }) => {

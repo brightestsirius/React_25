@@ -1,21 +1,15 @@
-import React, { useContext } from "react";
+import React from "react";
+import {Link} from 'react-router-dom'
 
-import { Link } from "react-router-dom";
-
-import AppContext from "../../context/app";
+import useUsers from "./../../hooks/useUsers";
 
 export default function UsersList() {
-  const { users, deleteUser } = useContext(AppContext);
-
-  const handleItemDelete = (id) => deleteUser(id);
+  const { users } = useUsers();
 
   return users.length ? (
     <ul>
       {users.map((item) => (
-        <li key={item.id}>
-          <Link to={`${item.id}/?color=crimson`}>{item.name} </Link>
-          <button onClick={() => handleItemDelete(item.id)}>Delete</button>
-        </li>
+        <li key={item.id}><Link to={`${item.id}?color=green&fontSize=12`}>{item.name}</Link></li>
       ))}
     </ul>
   ) : null;

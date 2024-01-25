@@ -1,16 +1,20 @@
 import React from "react";
-
 import { Outlet } from "react-router-dom";
 
-import Header from "./../Header/Header";
+import Navigation from "./../components/Navigation/Navigation";
 
 export default function Layout() {
   return (
     <>
-      <Header />
+      <header>
+        <Navigation />
+      </header>
+
       <main>
         <Outlet />
       </main>
+
+      <footer></footer>
     </>
   );
 }

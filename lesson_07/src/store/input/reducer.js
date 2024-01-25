@@ -1,13 +1,13 @@
 import { SET_TEXT } from "./actions";
 
 const INITIAL_STATE = {
-  form: `Defalut text`,
+  text: `Default text`,
 };
 
 const reducer = (state, { type, payload }) => {
   switch (type) {
     case SET_TEXT:
-      return { ...state, form: payload };
+      return { ...state, text: payload };
     default:
       return state;
   }

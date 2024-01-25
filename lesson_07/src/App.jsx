@@ -2,33 +2,34 @@ import React from "react";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Layout from "./pages/Layout/Layout";
 import HomeRoute from "./routes/HomeRoute";
-import PostsRoutes from "./routes/PostsRoutes";
+import PostsRoute from "./routes/PostsRoute";
+import PostRoute from "./routes/PostRoute";
 import UsersRoute from "./routes/UsersRoute";
 import UserRoute from "./routes/UserRoute";
+import UserCommentRoute from "./routes/UserCommentRoute";
+import ErrorRoute from "./routes/ErrorRoute";
 
-import AppContext from "./context/app";
-
-import useUsers from "./hooks/useUsers";
-import useUser from "./hooks/useUser";
+import Layout from './pages/Layout'
 
 export default function App() {
-  const users = useUsers();
-  const user = useUser();
-
   return (
-    <AppContext.Provider value={{ ...users, ...user }}>
+    <>
       <BrowserRouter>
         <Routes>
           <Route path={"/"} element={<Layout />}>
             <Route index element={<HomeRoute />} />
-            <Route path={"posts"} element={<PostsRoutes />} />
+            <Route path={"posts"} element={<PostsRoute />} />
+            <Route path={"post"} element={<PostRoute />} />
+
             <Route path={"users"} element={<UsersRoute />} />
             <Route path={"users/:id"} element={<UserRoute />} />
+            <Route path={"users/:id/:comment"} element={<UserCommentRoute />} />
+
+            <Route path={"*"} element={<ErrorRoute />} />
           </Route>
         </Routes>
       </BrowserRouter>
-    </AppContext.Provider>
+    </>
   );
 }

@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react'
 
-import User from "./../components/User/User";
+import User from './../components/User/User'
 
 export default function UserRoute() {
   return (
@@ -8,5 +8,5 @@ export default function UserRoute() {
       <h3>User Route</h3>
       <User />
     </>
-  );
+  )
 }

@@ -1,12 +1,7 @@
-import React from "react";
-
-import UsersStatistics from "./../components/Users/UsersStatistics";
+import React from 'react'
 
 export default function HomeRoute() {
   return (
-    <>
-      <h3>Home Route</h3>
-      <UsersStatistics />
-    </>
-  );
+    <div>HomeRoute</div>
+  )
 }

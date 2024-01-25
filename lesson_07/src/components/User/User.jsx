@@ -1,32 +1,36 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
+import { useParams, useSearchParams, Link, useNavigate } from "react-router-dom";
 
-import { useParams, useNavigate, useSearchParams } from "react-router-dom";
-
-import AppContext from "../../context/app";
+import useUser from "../../hooks/useUser";
 
 export default function User() {
-  const { id } = useParams();
-  const { user, getUser, deleteUser } = useContext(AppContext);
+  const { id} = useParams();
+
   const [searchParams] = useSearchParams();
-  const color = searchParams.get(`color`) ? searchParams.get(`color`) : `black`;
+  const color = searchParams.get(`color`);
+  const fontSize = searchParams.get(`fontSize`);
+
+  const { user, deleteUser } = useUser(id);
 
   const navigation = useNavigate();
 
-  useEffect(() => {
-    getUser(id);
-  }, []);
-
   const handleDelete = async () => {
-    await deleteUser(id);
-    navigation(`/`);
+    await deleteUser();
+    navigation(`/users`);
   };
 
   return Object.keys(user).length ? (
     <>
-      <ul style={{color}}>
-        <li>{user.name}</li>
+      <ul style={{ color, fontSize }}>
+        {Object.keys(user).map((key, index) => (
+          <li key={index}>
+            {key}: {user[key]}
+          </li>
+        ))}
       </ul>
-      <button onClick={handleDelete}>Delete User</button>
+      <button onClick={handleDelete}>Delete user</button>
+      <br />
+      <Link to={"/users"}>Back to users</Link>
     </>
   ) : null;
 }
