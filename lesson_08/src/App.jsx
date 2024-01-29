@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react'
 
-import Filter from "./components/Filter/Filter";
-import List from "./components/List/List";
+import Filter from './components/Filter/Filter'
+import Users from './components/Users/Users'
 
 export default function App() {
   return (
-    <>
+    <div>
       <Filter />
-      <List />
-    </>
-  );
+      <Users />
+    </div>
+  )
 }

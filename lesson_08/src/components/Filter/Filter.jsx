@@ -1,14 +1,13 @@
 import React from "react";
 
-import { useSelector, useDispatch } from "react-redux";
-
 import {
-  USER_ALL_FILTER,
-  USER_ACTIVE_FILTER,
-  USER_NON_ACTIVE_FILTER,
-} from "./../../constants/users";
+  USERS_ALL_FILTER,
+  USERS_ACTIVE_FILTER,
+  USERS_NON_ACTIVE_FILTER,
+} from "../../constants/users";
 
-import { setFilterAction } from "./../../store/filter/actions";
+import { useSelector, useDispatch } from "react-redux";
+import { setFilterAction } from "../../store/filter/actions";
 
 export default function Filter() {
   const { filter } = useSelector((state) => state.filter);
@@ -18,9 +17,9 @@ export default function Filter() {
 
   return (
     <select defaultValue={filter} onChange={handleSelect}>
-      <option value={USER_ALL_FILTER}>{USER_ALL_FILTER}</option>
-      <option value={USER_ACTIVE_FILTER}>{USER_ACTIVE_FILTER}</option>
-      <option value={USER_NON_ACTIVE_FILTER}>{USER_NON_ACTIVE_FILTER}</option>
+      <option value={USERS_ALL_FILTER}>{USERS_ALL_FILTER}</option>
+      <option value={USERS_ACTIVE_FILTER}>{USERS_ACTIVE_FILTER}</option>
+      <option value={USERS_NON_ACTIVE_FILTER}>{USERS_NON_ACTIVE_FILTER}</option>
     </select>
   );
 }
