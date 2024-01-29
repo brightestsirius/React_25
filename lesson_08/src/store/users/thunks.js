@@ -1,25 +1,17 @@
 import service from "./../../services/users";
-import { setUsers, deleteUser, changeUser } from "./usersSlice";
+
+import { createAsyncThunk } from "@reduxjs/toolkit";
 
 const thunks = {
-  setUsers: () => {
-    return async (dispatch) => {
-      const response = await service.get();
-      dispatch(setUsers(response));
-    };
-  },
-  deleteUser: (id) => {
-    return async (dispatch) => {
-      await service.delete(id);
-      dispatch(deleteUser(id));
-    };
-  },
-  chnageUser: (item) => {
-    return async (dispatch) => {
-      const response = await service.put(item.id, { active: !item.active });
-      dispatch(changeUser(response));
-    };
-  },
+  setUsers: createAsyncThunk("users/setUsers", async () => await service.get()),
+  deleteUser: createAsyncThunk("users/deleteUser", async (id) => {
+    await service.delete(id);
+    return id;
+  }),
+  changeUser: createAsyncThunk("users/changeUser", async (item) => {
+    const response = await service.put(item.id, { active: !item.active });
+    return response;
+  }),
 };
 
 export default thunks;

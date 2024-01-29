@@ -2,8 +2,6 @@ import React, { useEffect, useMemo } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 
-import service from "./../../services/users";
-
 import {
   USER_ACTIVE_FILTER,
   USER_NON_ACTIVE_FILTER,
@@ -38,7 +36,7 @@ export default function List() {
 
   const handleDelete = async (id) => dispatch(thunks.deleteUser(id));
 
-  const handleActivate = async (item) => dispatch(thunks.chnageUser(item));
+  const handleActivate = async (item) => dispatch(thunks.changeUser(item));
 
   return filteredList.length ? (
     <ul>
