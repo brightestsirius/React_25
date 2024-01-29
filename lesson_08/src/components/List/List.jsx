@@ -10,7 +10,7 @@ import {
 import thunks from "./../../store/users/thunks";
 
 export default function List() {
-  const { users } = useSelector((state) => state.users);
+  const { users, isLoading } = useSelector((state) => state.users);
   const { filter } = useSelector((state) => state.filter);
 
   const filteredList = useMemo(
@@ -39,18 +39,22 @@ export default function List() {
   const handleActivate = async (item) => dispatch(thunks.changeUser(item));
 
   return filteredList.length ? (
-    <ul>
-      {filteredList.map((item) => (
-        <li key={item.id}>
-          {item.name}{" "}
-          <button onClick={() => handleDelete(item.id)}>Delete</button>
-          <input
-            type="checkbox"
-            defaultChecked={item.active}
-            onChange={() => handleActivate(item)}
-          />
-        </li>
-      ))}
-    </ul>
+    isLoading ? (
+      <p>Loading...</p>
+    ) : (
+      <ul>
+        {filteredList.map((item) => (
+          <li key={item.id}>
+            {item.name}{" "}
+            <button onClick={() => handleDelete(item.id)}>Delete</button>
+            <input
+              type="checkbox"
+              defaultChecked={item.active}
+              onChange={() => handleActivate(item)}
+            />
+          </li>
+        ))}
+      </ul>
+    )
   ) : null;
 }
