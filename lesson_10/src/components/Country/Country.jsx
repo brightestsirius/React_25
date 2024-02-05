@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useParams, useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 
 import useCountry from "./../../hooks/useCountry";
 
@@ -9,9 +9,14 @@ export default function Country() {
   const [searchParams] = useSearchParams();
   const lang = searchParams.get(`lang`);
 
+  const navigation = useNavigate();
+
   const { country, deleteCountry } = useCountry(id);
 
-  const handleDelete = () => deleteCountry();
+  const handleDelete = () => {
+    deleteCountry();
+    navigation(`/countries`);
+  };
 
   return country ? (
     <>
