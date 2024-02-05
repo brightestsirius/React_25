@@ -1,3 +1,3 @@
 const sliceName = `countries`;
 
-export { sliceName };
+export {sliceName};

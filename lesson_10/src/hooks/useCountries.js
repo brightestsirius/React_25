@@ -13,5 +13,5 @@ export default function useCountries() {
     !countries.length && dispatch(thunks.fetchCountries());
   }, []);
 
-  return { countries };
+  return {countries};
 }

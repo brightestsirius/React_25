@@ -4,8 +4,8 @@ import thunks from "./thunks";
 
 const initialState = {
   countries: [],
-  country: null,
-  translation: null,
+  selectedCountry: null,
+  selectedTranslation: null,
 };
 
 export const slice = createSlice({
@@ -13,19 +13,25 @@ export const slice = createSlice({
   initialState,
   reducers: {
     setCountry(state, { payload }) {
-      state.country = payload
-        ? state.countries.find((item) => item.id === payload)
-        : state.countries.length
-        ? state.countries[0]
-        : null;
+      if(payload){
+        state.selectedCountry = state.countries.find(
+          (item) => item.id === payload
+        );
+      } else{
+        if(!state.selectedCountry){
+          state.selectedCountry = state.countries[0];
+        }
+      }
     },
     setTranslation(state, { payload }) {
-      if (payload) {
-        state.translation = payload;
-      } else if (state.country) {
-        state.translation = Object.keys(state.country.translations)[0];
-      } else if (state.countries.length) {
-        state.translation = Object.keys(state.countries[0].translations)[0];
+      if(payload){
+        state.selectedTranslation = payload;
+      } else{
+        if(state.selectedCountry){
+          state.selectedTranslation = Object.keys(
+            state.selectedCountry.translations
+          )[0];
+        }
       }
     },
   },
@@ -35,14 +41,16 @@ export const slice = createSlice({
         state.countries = payload;
       })
       .addCase(thunks.fetchCountry.fulfilled, (state, { payload }) => {
-        state.country = payload;
+        state.selectedCountry = payload;
       })
       .addCase(thunks.fetchDeleteCountry.fulfilled, (state, { payload }) => {
         state.countries = state.countries.filter((item) => item.id !== payload);
-        state.country = null;
+        state.selectedCountry = null;
+        state.selectedTranslation = null;
       });
   },
 });
 
 export const { setCountry, setTranslation } = slice.actions;
+
 export default slice.reducer;

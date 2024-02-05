@@ -1,6 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { sliceName } from "./constants";
-
 import service from "./../../services/countries";
 
 const thunks = {
@@ -13,7 +12,7 @@ const thunks = {
     return response;
   }),
   fetchDeleteCountry: createAsyncThunk(`${sliceName}/fetchDeleteCountry`, async (id) => {
-    service.delete(id);
+    await service.delete(id);
     return id;
   }),
 };

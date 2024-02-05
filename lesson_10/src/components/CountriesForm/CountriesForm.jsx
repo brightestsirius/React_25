@@ -4,26 +4,33 @@ import "./style.sass";
 import { useNavigate } from "react-router-dom";
 
 import useCountries from "./../../hooks/useCountries";
-import useCountryForm from "./../../hooks/useCountryForm";
+import useCountriesForm from "./../../hooks/useCountriesForm";
 
 export default function CountriesForm() {
   const { countries } = useCountries();
-  const { country, translation, handleSelectCountry, handleSelectTranslation } =
-    useCountryForm(countries);
+  const {
+    selectedCountry,
+    selectedTranslation,
+    selectCountry,
+    selectTranslation,
+  } = useCountriesForm(countries);
+
+  const handleSelectCountry = (e) => selectCountry(e.target.value);
+
+  const handleSelectTranslation = (e) => selectTranslation(e.target.value);
 
   const navigation = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    navigation(`/countries/${country.id}?lang=${translation}`);
+    navigation(`countries/${selectedCountry.id}?trans=${selectedTranslation}`);
   };
 
-  return countries.length && country ? (
+  return countries.length && selectedCountry ? (
     <form className="component form" onSubmit={handleSubmit}>
       <label>
-        Choose capital:{" "}
-        <select onChange={handleSelectCountry}>
+        Select capital:{" "}
+        <select value={selectedCountry.id} onChange={handleSelectCountry}>
           {countries.map((item) => (
             <option key={item.id} value={item.id}>
               {item.flag} {item.capital[0]}
@@ -33,16 +40,20 @@ export default function CountriesForm() {
       </label>
       <label>
         Select translation:{" "}
-        <select onChange={handleSelectTranslation}>
-          {Object.keys(country.translations).map((item, index) => (
-            <option key={index} value={item}>
-              {item}
-            </option>
-          ))}
-        </select>
+        {selectedTranslation ? (
+          <select
+            onChange={handleSelectTranslation}
+            value={selectedTranslation}
+          >
+            {Object.keys(selectedCountry.translations).map((key, index) => (
+              <option key={index} value={key}>
+                {key}
+              </option>
+            ))}
+          </select>
+        ) : null}
       </label>
-
-      <button>Get info about {country.name.official}</button>
+      <button>Get info about {selectedCountry.name.official}</button>
     </form>
   ) : null;
 }

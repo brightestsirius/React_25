@@ -1,12 +1,14 @@
 import React from "react";
 
-import Country from "./../components/Country/Country";
+import CountryInfo from "./../components/CountryInfo/CountryInfo";
+import NavigationBtn from "./../components/NavigationBtn/NavigationBtn";
 
 export default function CountryRoute() {
   return (
     <>
       <h3>Country Route</h3>
-      <Country />
+      <CountryInfo />
+      <NavigationBtn title={"Back to Countries Page"} route={"/countries"} />
     </>
   );
 }
