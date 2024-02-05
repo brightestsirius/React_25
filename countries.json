@@ -122,17 +122,17 @@
     },
     "flag": "🇺🇦",
     "translations": {
-      "bre": {
-        "official": "Martinik",
-        "common": "Martinik"
-      },
       "ces": {
-        "official": "Martinik",
-        "common": "Martinik"
+        "official": "Ukrajina",
+        "common": "Ukrajina"
       },
       "cym": {
-        "official": "Martinique",
-        "common": "Martinique"
+        "official": "Ukraine",
+        "common": "Ukraine"
+      },
+      "deu": {
+        "official": "Ukraine",
+        "common": "Ukraine"
       }
     }
   }
