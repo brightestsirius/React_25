@@ -1,70 +1,110 @@
-let str:string = `hello`;
-let num:number = 10;
-let bool:boolean = true;
-let undefinedValue = undefined;
+let strValue: string = `value`;
+let numberValue: number = 10;
+let booleanValue: boolean = true;
+let undefinedValue: undefined = undefined;
 let nullValue: null = null;
 
-type maybeString = undefined | string | null;
+type maybeString = string | number | undefined;
 
-let someName: maybeString = `Anna`;
-let userMonth: any = 10;
+let userId: maybeString = `10`;
 
-let animals: string[] = [`cat`];
-let users: (string | number)[] = [`cat`, 10];
+let userMonth: any = `sept`;
+userMonth = 10;
+userMonth = true;
 
-type Child = {
-    name: string,
-    age: number
+let animals: string[] = [`cat`, `dog`];
+let ids: (maybeString)[] = [10, `10`, undefined];
+
+interface Animal{
+    type: string,
+    name: string
 }
 
-enum REST_API_METHODS {
+enum REST {
     get = `GET`,
-    delete = `DELETE`
+    delete = `DELETE`,
+    post = `POST`
 }
 
-interface UserI {
+interface IUser {
     name: string,
-    age: number
-    animals?: Child[],
-    methods: REST_API_METHODS[]
+    age: number,
+    children?: string[],
+    animals?: Animal[],
+    methods: REST[]
 }
 
-interface WomanI extends UserI {
-    child: number
-}
-
-let user: UserI = {
-    name: `Anna`,
-    age: 60,
-    methods: [REST_API_METHODS.get]
-}
-
-let Katya: WomanI = {
-    name: `Katya`,
-    age: 29,
-    child: 2,
-    methods: [REST_API_METHODS.delete],
+let userAnton: IUser = {
+    name: `Anton`,
+    age: 20,
     animals: [
         {
-            name: `Child 1`,
-            age: 2
+           name: `Patron`,
+           type: `dog`
         }
-    ]
+    ],
+    methods: [REST.get, REST.delete]
 }
 
-const renderString = (value: string): void => {
-    console.log(`Render ${value}`);
+const render = (value?: string):void => {
+    console.log(value);
 }
 
-const sum = (a: number, b?: number) => {
+render(`hello`);
+render();
+
+const sum = (a:number, b?:number):number => {
     if(b) return a+b;
     else return a;
 }
 
-const printValue = <x, y>(value_1:x, value_2:y): void => {
-    console.log(value_1);
-    console.log(value_2);
+sum(10);
+
+// generic
+const makeState = <T>(defaultState: T) => {
+    let state:T = defaultState;
+
+    const getState = () => state;
+
+    const setState = (newState: T) => {
+        state = newState;
+    }
+
+    return {getState, setState};
 }
 
-sum(10);
-sum(10, 20);
+let myState = makeState(1);
+
+myState.setState(2);
+
+console.log(myState.getState());
+
+// Partial – some of options
+// Pick - only necessary options
+// Omit - without options
+
+interface Student{
+    id: number;
+    name: string;
+    country: string;
+    isMarried: boolean;
+}
+
+type PartialStudent = Partial<Student>;
+type PickStudent = Pick<Student, "id" | "name">
+type OmitStudent = Omit<Student, "isMarried" | "country">
+
+let student_1:PartialStudent = {
+    id: 1,
+    country: `Ukraine`
+}
+
+let student_2: PickStudent = {
+    id: 1,
+    name: `Student 2`,
+}
+
+let student_3: OmitStudent = {
+    id: 1,
+    name: `Anton`
+}
