@@ -1,13 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
-import { pokemonApi } from './pokemons/service'
+import { usersApi } from './users/service'
 
 export const store = configureStore({
     reducer: {
-        [pokemonApi.reducerPath]: pokemonApi.reducer,
+        [usersApi.reducerPath]: usersApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(pokemonApi.middleware),
+        getDefaultMiddleware().concat(usersApi.middleware),
 })
 
 setupListeners(store.dispatch)

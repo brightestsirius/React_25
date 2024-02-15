@@ -1,20 +1,22 @@
-import { DEFAULT_USER, IUser } from './mockedData';
+import { unknownType, IUser } from './../types/types';
+import { DEFAULT_USER } from './mockedData'
+import { convertToNumber } from './../utils/utils'
 
-const sum = (a: number, b?: number | string): number => {
-    if (b && typeof b === `number`) return a + b;
-    else return a;
+const sum = (a: number, b?: unknownType): unknownType => {
+    if (b) return convertToNumber(a) + convertToNumber(b);
+    else return convertToNumber(a);
 }
 
-const getUserData = (user?: IUser) => {
+const getUser = (user?: IUser): IUser => {
     if (user) return { ...user, country: `Ukraine` };
-    else return DEFAULT_USER;
+    return DEFAULT_USER;
 }
 
-const awaitSetTimeout = () => {
+const awaitTimeout = async (timer: number) => {
     return new Promise((resolve) => {
         setTimeout(() => {
-            resolve(`after 1s`);
-        }, 1000);
+            resolve(`after ${timer} ms`);
+        }, timer);
     })
 }
 
@@ -25,4 +27,4 @@ const fetchData = async () => {
     return response;
 }
 
-export { sum, getUserData, awaitSetTimeout, fetchData }
+export { sum, getUser, awaitTimeout, fetchData };

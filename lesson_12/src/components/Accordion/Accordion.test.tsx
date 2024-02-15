@@ -11,7 +11,6 @@ describe("Accordion", () => {
     });
 
     test("should show title all the time", () => {
-       
         expect(screen.getByText(/Testing/i)).toBeInTheDocument();
     })
 

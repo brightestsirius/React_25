@@ -1,8 +1,7 @@
-import { DEFAULT_USER, TEST } from './mockedData';
+import { test, expect, afterEach, afterAll, describe } from 'vitest';
 
-import { test, expect, beforeEach, afterAll, describe } from 'vitest'
-
-import { sum, getUserData, awaitSetTimeout, fetchData } from './index'
+import { sum, getUser, awaitTimeout, fetchData } from './index';
+import { DEFAULT_USER, DEFAULT_TIMER, DEFAULT_FETCHED_DATA } from './mockedData';
 
 test(`fn should return sum of numbers`, () => {
     const result = sum(2, 3);
@@ -10,39 +9,39 @@ test(`fn should return sum of numbers`, () => {
 });
 
 test(`fn should return number`, () => {
-    const result = sum(2, `10`);
+    const result = sum(2);
     expect(result).toBe(2);
-    expect(result).not.toBe(12);
+    expect(result).not.toBe(`2`);
 });
 
-describe(`USERS_FN`, () => {
+describe(`USERS FNS`, () => {
     test(`fn should return default user`, () => {
-        const result = getUserData();
-        expect(result).toEqual(DEFAULT_USER)
-    });
-
+        const result = getUser();
+        expect(result).toEqual(DEFAULT_USER);
+    })
+    
     test(`fn should return user`, () => {
-        const result = getUserData({ name: `Katya` });
-        expect(result).toEqual({ name: `Katya`, country: `Ukraine` })
-    });
-
-    let testCounter = 0;
-
-    beforeEach(() => {
-        testCounter++;
+        const result = getUser({name: `Katya`, age: 20});
+        expect(result).toEqual({name: `Katya`, age: 20, country: `Ukraine`});
     })
-
+    
+    let countOfTests = 0;
+    
+    afterEach(() => {
+        console.log(`afterEach`, ++countOfTests);
+    })
+    
     afterAll(() => {
-        console.log(testCounter);
+        console.log(`afterAll`, countOfTests);
     })
 })
 
-test(`fn should retun text after 1s`, async () => {
-    const result = await awaitSetTimeout();
-    expect(result).toBe(`after 1s`);
+test(`fn should return text after 1 sec`, async () => {
+    const result = await awaitTimeout(DEFAULT_TIMER);
+    expect(result).toBe(`after ${DEFAULT_TIMER} ms`);
 })
 
-test(`fn should retun fetch`, async () => {
+test(`fn shuld return fetched data`, async () => {
     const result = await fetchData();
-    expect(result).toEqual(TEST);
+    expect(result).toEqual(DEFAULT_FETCHED_DATA);
 })
